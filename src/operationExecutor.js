@@ -46,11 +46,12 @@ class OperationExecutor {
       return clone;
     };
     let clone = func(arg);
-    console.info(arg);
+
     clone.obj1.firstName = "Vladislav";
     clone.obj1.lastName = "Erofeev";
     clone.obj1.relatives[0].firstName = "Vladislav";
     clone.obj1.relatives[0].lastName = "Erofeev";
+    console.info(arg);
     return clone;
   }
 
@@ -61,13 +62,23 @@ class OperationExecutor {
    * @returns object that contains source objects and their combined and modified clone
    */
   secondTaskExecute(arg) {
-    //let clone = Object.assign({}, arg.obj1, arg.obj2);
-    let clone1 = {};
-    clone1.obj1 = arg.obj1;
-    clone1.obj2 = arg.obj2;
+    let func = function(arg) {
+      let clone = {};
+      for (let prop in arg) {
+        if (arg.hasOwnProperty(prop)) {
+          if ("object" === typeof arg[prop]) {
+            clone[prop] = func(arg[prop]);
+          } else
+            clone[prop] = arg[prop];
+        }
+      }
+      return clone;
+    };
+    let clone = func(arg);
+    clone.obj1.b = 100;
+    clone.obj2.c = 300;
     console.info(arg);
-    console.info(clone1);
-    return null /* variable with result */;
+    return clone /* variable with result */;
   }
 
   /**
@@ -77,10 +88,15 @@ class OperationExecutor {
    * @returns object that contains modified source object
    */
   thirdTaskExecute(arg) {
-    /**
-     * Place your code here
-     */
-    return null /* variable with result */;
+    let array = arg.obj1.relatives;
+    array.forEach(element => {
+      if (element.lastName === "Ivanova") {
+        element.gender = "female";
+      } else {
+        element.gender = "male";
+      }
+    });
+    return arg;
   }
 
   /**
@@ -90,10 +106,14 @@ class OperationExecutor {
    * @returns object that contains array of string with female relatives
    */
   fourthTaskExecute(arg) {
-    /**
-     * Place your code here
-     */
-    return null /* variable with result */;
+    let array = arg.obj1.relatives;
+    let arrayWelcome = [];
+    let i = 0;
+    array.forEach(element => {
+      arrayWelcome[i] = `Здравствуйте ${element.firstName} ${element.lastName} !!!`;
+      i++;
+    });
+    return arrayWelcome;
   }
 
   /**
@@ -103,10 +123,10 @@ class OperationExecutor {
    * @returns string which contains the class of the button and current color
    */
   fifthTaskExecute(arg) {
-    /**
-     * Place your code here
-     */
-    return '';
+    let classname = document.getElementsByClassName(arg.className);
+    classname.item(0).setAttribute("color", arg.color);
+    console.info(classname);
+    return classname.item(0).getAttribute("color");
   }
 
   /**
@@ -116,10 +136,21 @@ class OperationExecutor {
    * @returns object that contains array of items that match the hostname on which the application is running
    */
   sixthTaskExecute(arg) {
-    /**
-     * Place your code here
-     */
-    return null;
+    console.info(arg.hostNames);
+    let names = arg.hostNames;
+    let copy = {};
+    let hostNames = [];
+    let i = 0;
+    console.info(names);
+    names.forEach(name => {
+      console.info(name);
+      if (name === window.location.hostname) {
+        hostNames[i] = name;
+        ++i;
+      }
+    });
+    copy.hostNames = hostNames;
+    return copy;
   }
 
   /**
