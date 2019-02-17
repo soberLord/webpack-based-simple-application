@@ -33,10 +33,25 @@ class OperationExecutor {
    * @returns object that contains source object and his modified clone
    */
   firstTaskExecute(arg) {
-    /**
-     * Place your code here
-     */
-    return null /* variable with result */;
+    let func = function(arg) {
+      let clone = {};
+      for (let prop in arg) {
+        if (arg.hasOwnProperty(prop)) {
+          if ("object" === typeof arg[prop]) {
+            clone[prop] = func(arg[prop]);
+          } else
+            clone[prop] = arg[prop];
+        }
+      }
+      return clone;
+    };
+    let clone = func(arg);
+    console.info(arg);
+    clone.obj1.firstName = "Vladislav";
+    clone.obj1.lastName = "Erofeev";
+    clone.obj1.relatives[0].firstName = "Vladislav";
+    clone.obj1.relatives[0].lastName = "Erofeev";
+    return clone;
   }
 
   /**
@@ -46,9 +61,12 @@ class OperationExecutor {
    * @returns object that contains source objects and their combined and modified clone
    */
   secondTaskExecute(arg) {
-    /**
-     * Place your code here
-     */
+    //let clone = Object.assign({}, arg.obj1, arg.obj2);
+    let clone1 = {};
+    clone1.obj1 = arg.obj1;
+    clone1.obj2 = arg.obj2;
+    console.info(arg);
+    console.info(clone1);
     return null /* variable with result */;
   }
 
