@@ -177,10 +177,18 @@ class OperationExecutor {
    * @returns obj that built using array's values
    */
   eighthTaskExecute(arg) {
-    /**
-     * Place your code here
-     */
-    return null;
+    let array = arg.arr1.concat(arg.arr2);
+    console.info(array);
+    let object = {};
+    for (let i = 0; i<array.length; i+=2) {
+      let key = array[i];
+      if (array[i+1] !== undefined) {
+        object[key] = array[i+1];
+      } else {
+        object[key] = null;
+      }
+    }
+    return object;
   }
 
   /**
@@ -190,10 +198,12 @@ class OperationExecutor {
    * @returns obj that contains pairs id: obj with this id
    */
   ninthTaskExecute(arg) {
-    /**
-     * Place your code here
-     */
-    return null;
+    let objects = arg.users;
+    let result = {};
+    objects.forEach(element => {
+      result[element.id] = element;
+    });
+    return result;
   }
 
   /**
@@ -203,10 +213,15 @@ class OperationExecutor {
    * @returns obj that contains the array with info about children of the node
    */
   tenthTaskExecute(arg) {
-    /**
-     * Place your code here
-     */
-    return null;
+    let classname = document.getElementsByClassName(arg.className);
+    let childs = classname.item(0).children;
+    for (let i = 0; i<childs.length; i++) {
+      let object = {};
+      object.namenode = childs[i].nodeName;
+      object.nameclass = childs[i].className;
+      arg.childrenInfo[i] = object;
+    }
+    return arg.childrenInfo;
   }
 }
 
